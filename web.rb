@@ -24,13 +24,16 @@ post '/swap' do
     # which it will pass back to the caller in a JSON payload.
 
     auth_code = params[:code]
-
+    puts("auth_code")
+    puts(auth_code)
     http = Net::HTTP.new(SPOTIFY_ACCOUNTS_ENDPOINT.host, SPOTIFY_ACCOUNTS_ENDPOINT.port)
     http.use_ssl = true
 
     request = Net::HTTP::Post.new("/api/token")
 
     request.add_field("Authorization", AUTH_HEADER)
+    puts("Authorization")
+    puts(AUTH_HEADER)
 
     request.form_data = {
         "grant_type" => "authorization_code",
