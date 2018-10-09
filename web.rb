@@ -18,6 +18,7 @@ get '/' do
 end
 
 post '/swap' do
+    $stdout.sync = true
     LOG = Logger.new(STDOUT)
     LOG.level = 'INFO'
     # This call takes a single POST parameter, "code", which
