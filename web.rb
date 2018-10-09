@@ -4,6 +4,7 @@ require 'net/https'
 require 'base64'
 require 'encrypted_strings'
 require 'json'
+require "logger"
 
 CLIENT_ID = ENV['CLIENT_ID']
 CLIENT_SECRET = ENV['CLIENT_SECRET']
@@ -17,23 +18,24 @@ get '/' do
 end
 
 post '/swap' do
-
+    LOG = Logger.new(STDOUT)
+    LOG.level = 'INFO'
     # This call takes a single POST parameter, "code", which
     # it combines with your client ID, secret and callback
     # URL to get an OAuth token from the Spotify Auth Service,
     # which it will pass back to the caller in a JSON payload.
 
     auth_code = params[:code]
-    puts("auth_code")
-    puts(auth_code)
+    LOG.info "auth_code"
+    LOG.info auth_code
     http = Net::HTTP.new(SPOTIFY_ACCOUNTS_ENDPOINT.host, SPOTIFY_ACCOUNTS_ENDPOINT.port)
     http.use_ssl = true
 
     request = Net::HTTP::Post.new("/api/token")
 
     request.add_field("Authorization", AUTH_HEADER)
-    puts("Authorization")
-    puts(AUTH_HEADER)
+    LOG.info "Authorization"
+    LOG.info AUTH_HEADER
 
     request.form_data = {
         "grant_type" => "authorization_code",
